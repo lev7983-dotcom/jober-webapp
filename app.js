@@ -149,35 +149,22 @@ window.removePhoto = function() {
     renderPhoto();
 };
 
-// Отправка формы
+// Отправка формы - УПРОЩЕННАЯ
 if (form) {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        const title = document.getElementById('title')?.value;
-        const company = document.getElementById('company')?.value;
-        const salary = document.getElementById('salary')?.value;
-        const location = document.getElementById('location')?.value;
-        const description = document.getElementById('description')?.value;
-        const phone = document.getElementById('phone')?.value;
-        const category = document.getElementById('category')?.value;
-        
-        if (!title || !company || !salary || !location || !description || !phone || !category) {
-            tg.showAlert('Заполните все обязательные поля (включая категорию)');
-            return;
-        }
-        
         const data = {
             action: 'create_vacancy',
-            title: title,
-            company: company,
-            salary: salary,
-            location: location,
+            title: document.getElementById('title')?.value || 'Тестовая вакансия',
+            company: document.getElementById('company')?.value || 'Тестовая компания',
+            salary: document.getElementById('salary')?.value || '1000 ₽',
+            location: document.getElementById('location')?.value || 'Москва',
             schedule: document.getElementById('schedule')?.value || '',
-            category: category,
+            category: document.getElementById('category')?.value || 'Другое',
             experience: document.getElementById('experience')?.value || '',
-            description: description,
-            phone: phone,
+            description: document.getElementById('description')?.value || 'Тестовое описание',
+            phone: document.getElementById('phone')?.value || '+79991234567',
             photo: photo || ''
         };
         
