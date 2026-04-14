@@ -1,126 +1,44 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jober - Создание вакансии</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jober</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { background: #000; color: #fff; padding: 16px; font-family: -apple-system, sans-serif; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: none; background: #1C1C1E; color: #fff; box-sizing: border-box; }
+        button { background: #0A84FF; color: #fff; padding: 16px; width: 100%; border: none; border-radius: 8px; font-size: 16px; margin-top: 16px; }
+    </style>
 </head>
 <body>
-    <div class="app">
-        <div class="close-header">
-            <button class="close-btn" id="closeAppBtn">Закрыть</button>
-        </div>
-        
-        <header class="header">
-            <div class="logo">
-                <span class="logo-text">Jober</span>
-                <span class="logo-subtitle">мини-приложение</span>
-            </div>
-        </header>
-        
-        <main class="main">
-            <h1>Создание вакансии</h1>
-            <p>Заполните форму ниже, чтобы разместить вакансию.</p>
-            
-            <form id="vacancyForm">
-                <div class="form-group">
-                    <label>Название *</label>
-                    <input type="text" id="title" placeholder="Например: Повар горячего цеха" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Компания *</label>
-                    <input type="text" id="company" placeholder="Название компании" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Зарплата *</label>
-                    <input type="text" id="salary" placeholder="от 5 000 ₽" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Город *</label>
-                    <input type="text" id="location" placeholder="Москва, Цветной бульвар д. 23" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Категория *</label>
-                    <select id="category" required>
-                        <option value="">Выберите категорию</option>
-                        <option value="Рестораны/Кафе">Рестораны/Кафе</option>
-                        <option value="IT/Технологии">IT/Технологии</option>
-                        <option value="Ритейл">Ритейл</option>
-                        <option value="Строительство">Строительство</option>
-                        <option value="Медицина">Медицина</option>
-                        <option value="Образование">Образование</option>
-                        <option value="Другое">Другое</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>Описание *</label>
-                    <textarea id="description" rows="4" placeholder="Опишите обязанности и условия..." required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label>Телефон *</label>
-                    <input type="tel" id="phone" placeholder="+7 (999) 999-99-99" required>
-                </div>
-                
-                <button type="submit" class="btn-submit" id="submitBtn" disabled>Загрузка...</button>
-            </form>
-        </main>
-    </div>
+    <h2>Создание вакансии</h2>
+    
+    <input id="title" placeholder="Название" value="Тест">
+    <input id="company" placeholder="Компания" value="Тест">
+    <input id="salary" placeholder="Зарплата" value="1000">
+    <input id="location" placeholder="Город" value="Москва">
+    <input id="phone" placeholder="Телефон" value="123">
+    
+    <button id="submit">Опубликовать</button>
     
     <script>
-        // Ждём готовности Telegram WebApp
-        let tg = null;
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
         
-        function initWebApp() {
-            if (window.Telegram && window.Telegram.WebApp) {
-                tg = window.Telegram.WebApp;
-                tg.ready();
-                tg.expand();
-                
-                // Активируем кнопку
-                const submitBtn = document.getElementById('submitBtn');
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Опубликовать вакансию';
-                
-                // Закрытие
-                document.getElementById('closeAppBtn').onclick = () => tg.close();
-                
-                // Отправка формы
-                document.getElementById('vacancyForm').onsubmit = function(e) {
-                    e.preventDefault();
-                    
-                    const data = {
-                        action: 'create_vacancy',
-                        title: document.getElementById('title').value.trim(),
-                        company: document.getElementById('company').value.trim(),
-                        salary: document.getElementById('salary').value.trim(),
-                        location: document.getElementById('location').value.trim(),
-                        category: document.getElementById('category').value,
-                        description: document.getElementById('description').value.trim(),
-                        phone: document.getElementById('phone').value.trim()
-                    };
-                    
-                    if (!data.title || !data.company || !data.salary || !data.location || !data.category || !data.description || !data.phone) {
-                        tg.showAlert('Заполните все поля');
-                        return;
-                    }
-                    
-                    tg.sendData(JSON.stringify(data));
-                    tg.close();
-                };
-            } else {
-                setTimeout(initWebApp, 100);
-            }
-        }
-        
-        initWebApp();
+        document.getElementById('submit').onclick = function() {
+            const data = {
+                title: document.getElementById('title').value,
+                company: document.getElementById('company').value,
+                salary: document.getElementById('salary').value,
+                location: document.getElementById('location').value,
+                phone: document.getElementById('phone').value
+            };
+            
+            tg.sendData(JSON.stringify(data));
+            tg.close();
+        };
     </script>
 </body>
 </html>
