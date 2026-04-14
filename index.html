@@ -69,58 +69,58 @@
                     <input type="tel" id="phone" placeholder="+7 (999) 999-99-99" required>
                 </div>
                 
-                <button type="submit" class="btn-submit" id="submitBtn">Опубликовать вакансию</button>
+                <button type="submit" class="btn-submit" id="submitBtn" disabled>Загрузка...</button>
             </form>
         </main>
     </div>
     
     <script>
-        // Ждём полной готовности Telegram WebApp
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
+        // Ждём готовности Telegram WebApp
+        let tg = null;
         
-        const tg = window.Telegram.WebApp;
-        
-        document.getElementById('closeAppBtn').addEventListener('click', function() {
-            tg.close();
-        });
-        
-        document.getElementById('vacancyForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Проверяем, что WebApp готов
-            if (!tg.isInitialized) {
-                alert('WebApp не готов');
-                return;
-            }
-            
-            const data = {
-                action: 'create_vacancy',
-                title: document.getElementById('title').value.trim(),
-                company: document.getElementById('company').value.trim(),
-                salary: document.getElementById('salary').value.trim(),
-                location: document.getElementById('location').value.trim(),
-                category: document.getElementById('category').value,
-                description: document.getElementById('description').value.trim(),
-                phone: document.getElementById('phone').value.trim()
-            };
-            
-            // Проверяем, что все поля заполнены
-            if (!data.title || !data.company || !data.salary || !data.location || !data.category || !data.description || !data.phone) {
-                tg.showAlert('Заполните все поля');
-                return;
-            }
-            
-            try {
-                tg.sendData(JSON.stringify(data));
-                // Не закрываем сразу, даём время на отправку
-                setTimeout(function() {
+        function initWebApp() {
+            if (window.Telegram && window.Telegram.WebApp) {
+                tg = window.Telegram.WebApp;
+                tg.ready();
+                tg.expand();
+                
+                // Активируем кнопку
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Опубликовать вакансию';
+                
+                // Закрытие
+                document.getElementById('closeAppBtn').onclick = () => tg.close();
+                
+                // Отправка формы
+                document.getElementById('vacancyForm').onsubmit = function(e) {
+                    e.preventDefault();
+                    
+                    const data = {
+                        action: 'create_vacancy',
+                        title: document.getElementById('title').value.trim(),
+                        company: document.getElementById('company').value.trim(),
+                        salary: document.getElementById('salary').value.trim(),
+                        location: document.getElementById('location').value.trim(),
+                        category: document.getElementById('category').value,
+                        description: document.getElementById('description').value.trim(),
+                        phone: document.getElementById('phone').value.trim()
+                    };
+                    
+                    if (!data.title || !data.company || !data.salary || !data.location || !data.category || !data.description || !data.phone) {
+                        tg.showAlert('Заполните все поля');
+                        return;
+                    }
+                    
+                    tg.sendData(JSON.stringify(data));
                     tg.close();
-                }, 500);
-            } catch (error) {
-                tg.showAlert('Ошибка: ' + error.message);
+                };
+            } else {
+                setTimeout(initWebApp, 100);
             }
-        });
+        }
+        
+        initWebApp();
     </script>
 </body>
 </html>
