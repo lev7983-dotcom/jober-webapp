@@ -4,7 +4,7 @@ tg.ready();
 
 const state = {
     photos: [],
-    maxPhotos: 3
+    maxPhotos: 1
 };
 
 const photoGrid = document.getElementById('photoGrid');
@@ -14,7 +14,7 @@ const form = document.getElementById('vacancyForm');
 
 addPhotoBtn.addEventListener('click', () => {
     if (state.photos.length >= state.maxPhotos) {
-        tg.showAlert('Максимум 3 фотографии');
+        tg.showAlert('Можно загрузить только 1 фото');
         return;
     }
     photoInput.click();
@@ -23,8 +23,8 @@ addPhotoBtn.addEventListener('click', () => {
 photoInput.addEventListener('change', (e) => {
     const files = Array.from(e.target.files);
     files.forEach(file => {
-        if (file.size > 500 * 1024) {
-            tg.showAlert('Файл больше 500KB. Выберите фото поменьше.');
+        if (file.size > 200 * 1024) {
+            tg.showAlert('Файл больше 200KB. Сожмите фото.');
             return;
         }
         const reader = new FileReader();
@@ -73,7 +73,7 @@ form.addEventListener('submit', (e) => {
         experience: document.getElementById('experience').value,
         description: document.getElementById('description').value,
         phone: document.getElementById('phone').value,
-        photos: state.photos
+        photo: state.photos[0] || null
     };
     
     tg.sendData(JSON.stringify(data));
