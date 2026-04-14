@@ -95,8 +95,14 @@
                 phone: document.getElementById('phone').value
             };
             
+            // ВАРИАНТ 1: с задержкой
             tg.sendData(JSON.stringify(data));
-            tg.close();
+            setTimeout(() => tg.close(), 500);
+            
+            // ВАРИАНТ 2: с колбэком (удалите вариант 1 и раскомментируйте этот)
+            // tg.sendData(JSON.stringify(data), (result) => {
+            //     tg.close();
+            // });
         });
     </script>
 </body>
