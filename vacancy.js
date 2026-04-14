@@ -4,16 +4,17 @@ tg.ready();
 
 const content = document.getElementById('vacancyContent');
 const contactBtn = document.getElementById('contactBtn');
+const closeBtn = document.getElementById('closeAppBtn');
 
-// Получаем ID вакансии из параметров
+closeBtn.addEventListener('click', () => tg.close());
+
 const params = new URLSearchParams(window.location.search);
 const id = params.get('id');
-
 let vacancy = null;
 
 async function loadVacancy() {
     try {
-        const response = await fetch(`https://lev7983-dotcom.github.io/jober-webapp/vacancies.json`);
+        const response = await fetch('https://lev7983-dotcom.github.io/jober-webapp/vacancies.json');
         const vacancies = await response.json();
         vacancy = vacancies.find(v => v.id == id);
         
@@ -28,8 +29,6 @@ async function loadVacancy() {
 }
 
 function renderVacancy() {
-    tg.MainButton.hide();
-    
     content.innerHTML = `
         ${vacancy.photo ? `<img class="vacancy-full-photo" src="${vacancy.photo}" alt="${vacancy.title}">` : ''}
         
@@ -73,3 +72,11 @@ function renderVacancy() {
 }
 
 loadVacancy();
+
+// Навигация
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+    });
+});
