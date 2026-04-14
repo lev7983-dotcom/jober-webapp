@@ -2,175 +2,69 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jober - Вакансии</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jober Тест</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            padding: 20px;
+            font-family: -apple-system, sans-serif;
+        }
+        button {
+            background: #0A84FF;
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 20px;
+            border-radius: 14px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: none;
+            background: #1C1C1E;
+            color: white;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-    <div class="app">
-        <div class="close-header">
-            <button class="close-btn" id="closeAppBtn">Закрыть</button>
-        </div>
-        
-        <header class="header">
-            <div class="logo">
-                <span class="logo-text">Jober</span>
-                <span class="logo-subtitle">мини-приложение</span>
-            </div>
-        </header>
-        
-        <main class="main">
-            <h1>Вакансии <span class="notification-icon">🔔</span></h1>
-            
-            <!-- Категории -->
-            <div class="categories">
-                <button class="category-btn active" data-category="all">Все</button>
-                <button class="category-btn" data-category="Рестораны/Кафе">🍽️ Рестораны</button>
-                <button class="category-btn" data-category="IT/Технологии">💻 IT</button>
-                <button class="category-btn" data-category="Ритейл">🛍️ Ритейл</button>
-                <button class="category-btn" data-category="Строительство">🏗️ Стройка</button>
-                <button class="category-btn" data-category="Медицина">🏥 Медицина</button>
-                <button class="category-btn" data-category="Образование">📚 Образование</button>
-                <button class="category-btn" data-category="Логистика/Склад">🚚 Склад</button>
-                <button class="category-btn" data-category="Красота/Спорт">💪 Красота</button>
-                <button class="category-btn" data-category="Домашний персонал">🏠 Дом</button>
-                <button class="category-btn" data-category="Другое">📌 Другое</button>
-            </div>
-            
-            <!-- Список вакансий -->
-            <div class="vacancies-list" id="vacanciesList">
-                <div class="loading">Загрузка вакансий...</div>
-            </div>
-        </main>
-        
-          <!-- Нижнее меню -->
-        <nav class="bottom-nav">
-            <a href="index.html" class="nav-item active">
-                <span class="nav-icon">◻️</span>
-                <span class="nav-label">Главная</span>
-            </a>
-            <a href="#" class="nav-item">
-                <span class="nav-icon">📄</span>
-                <span class="nav-label">Вакансии</span>
-            </a>
-            <a href="#" class="nav-item" id="navCreate">
-                <span class="nav-icon">＋</span>
-                <span class="nav-label">Разместить</span>
-            </a>
-            <a href="#" class="nav-item">
-                <span class="nav-icon">☆</span>
-                <span class="nav-label">Избранное</span>
-            </a>
-            <a href="#" class="nav-item">
-                <span class="nav-icon">👤</span>
-                <span class="nav-label">Профиль</span>
-            </a>
-        </nav>   </div>
+    <h1>Тест отправки</h1>
     
-    <!-- Экран создания вакансии -->
-    <div class="create-screen" id="createScreen" style="display: none;">
-        <div class="close-header">
-            <button class="close-btn" id="closeCreateBtn">Закрыть</button>
-        </div>
-        
-        <header class="header">
-            <div class="logo">
-                <span class="logo-text">Jober</span>
-                <span class="logo-subtitle">мини-приложение</span>
-            </div>
-        </header>
-        
-        <main class="main">
-            <button class="back-btn" id="backBtn">← Назад</button>
-            
-            <h1>Создание вакансии</h1>
-            <p>Заполните форму ниже, чтобы разместить вакансию.</p>
-            
-            <form id="vacancyForm">
-                <div class="form-group">
-                    <label>Фотографии <span>(0/1)</span></label>
-                    <p class="hint">Добавьте фото (макс 200KB)</p>
-                    <div class="photo-grid" id="photoGrid"></div>
-                    <button type="button" class="btn-add" id="addPhotoBtn">+ Добавить фото</button>
-                    <input type="file" id="photoInput" accept="image/*" style="display: none">
-                </div>
-                
-                <div class="form-group">
-                    <label>Название *</label>
-                    <input type="text" id="title" placeholder="Например: Повар горячего цеха" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Компания *</label>
-                    <input type="text" id="company" placeholder="Название компании" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Зарплата *</label>
-                    <input type="text" id="salary" placeholder="от 5 000 ₽" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Город *</label>
-                    <input type="text" id="location" placeholder="Москва, Цветной бульвар д. 23" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>График</label>
-                    <select id="schedule">
-                        <option value="">Выберите график</option>
-                        <option value="Полный день">Полный день</option>
-                        <option value="Сменный график">Сменный график</option>
-                        <option value="Удаленная работа">Удаленная работа</option>
-                        <option value="Вахтовый метод">Вахтовый метод</option>
-                        <option value="Гибкий график">Гибкий график</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>Категория *</label>
-                    <select id="category" required>
-                        <option value="">Выберите категорию</option>
-                        <option value="Рестораны/Кафе">Рестораны/Кафе</option>
-                        <option value="IT/Технологии">IT/Технологии</option>
-                        <option value="Ритейл">Ритейл</option>
-                        <option value="Строительство">Строительство</option>
-                        <option value="Медицина">Медицина</option>
-                        <option value="Образование">Образование</option>
-                        <option value="Логистика/Склад">Логистика/Склад</option>
-                        <option value="Красота/Спорт">Красота/Спорт</option>
-                        <option value="Домашний персонал">Домашний персонал</option>
-                        <option value="Другое">Другое</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>Опыт работы</label>
-                    <select id="experience">
-                        <option value="">Выберите опыт</option>
-                        <option value="Без опыта">Без опыта</option>
-                        <option value="От 1 до 2 лет">От 1 до 2 лет</option>
-                        <option value="От 2 до 3 лет">От 2 до 3 лет</option>
-                        <option value="От 3 лет">От 3 лет</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>Описание *</label>
-                    <textarea id="description" rows="4" placeholder="Опишите обязанности и условия..." required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label>Телефон *</label>
-                    <input type="tel" id="phone" placeholder="+7 (999) 999-99-99" required>
-                </div>
-                
-                <button type="submit" class="btn-submit">Опубликовать вакансию</button>
-            </form>
-        </main>
-    </div>
+    <input type="text" id="title" placeholder="Название" value="Тест">
+    <input type="text" id="company" placeholder="Компания" value="Тест">
+    <input type="text" id="salary" placeholder="Зарплата" value="1000">
+    <input type="text" id="location" placeholder="Город" value="Москва">
+    <input type="text" id="phone" placeholder="Телефон" value="123">
     
-    <script src="app.js"></script>
+    <button id="sendBtn">ОТПРАВИТЬ ВАКАНСИЮ</button>
+    
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.ready();
+        
+        document.getElementById('sendBtn').addEventListener('click', () => {
+            const data = {
+                action: 'create_vacancy',
+                title: document.getElementById('title').value,
+                company: document.getElementById('company').value,
+                salary: document.getElementById('salary').value,
+                location: document.getElementById('location').value,
+                description: 'Тест',
+                phone: document.getElementById('phone').value,
+                category: 'Другое'
+            };
+            
+            tg.sendData(JSON.stringify(data));
+            tg.close();
+        });
+    </script>
 </body>
 </html>
