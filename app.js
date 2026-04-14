@@ -17,14 +17,16 @@ let currentCategory = 'all';
 let vacancies = [];
 let photo = null;
 
-// Загрузка вакансий из Telegram
-function loadVacancies() {
-    tg.sendData(JSON.stringify({ action: 'get_vacancies' }));
+// Загрузка вакансий из JSON
+async function loadVacancies() {
+    try {
+        const response = await fetch('https://lev7983-dotcom.github.io/jober-webapp/vacancies.json');
+        vacancies = await response.json();
+        renderVacancies(vacancies);
+    } catch (e) {
+        vacanciesList.innerHTML = '<div class="loading">Нет вакансий</div>';
+    }
 }
-
-// Получение вакансий от бота
-Telegram.WebApp.onEvent('mainButtonClicked', () => {});
-Telegram.WebApp.onEvent('viewportChanged', () => {});
 
 // Категории
 categoryBtns.forEach(btn => {
@@ -64,14 +66,7 @@ function renderVacancies(list) {
 }
 
 window.showVacancy = function(id) {
-    const vacancy = vacancies.find(v => v.id === id);
-    if (vacancy) {
-        tg.showPopup({
-            title: vacancy.title,
-            message: `${vacancy.company}\n💰 ${vacancy.salary}\n📍 ${vacancy.location}\n\n${vacancy.description || ''}\n\n📞 ${vacancy.phone || 'Не указан'}`,
-            buttons: [{ type: 'close' }]
-        });
-    }
+    window.location.href = `vacancy.html?id=${id}`;
 };
 
 // Создание вакансии
