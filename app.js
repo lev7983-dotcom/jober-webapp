@@ -4,20 +4,51 @@ tg.ready();
 
 // Элементы
 const vacanciesList = document.getElementById('vacanciesList');
-const createBtn = document.getElementById('createBtn');
 const createScreen = document.getElementById('createScreen');
 const backBtn = document.getElementById('backBtn');
+const closeCreateBtn = document.getElementById('closeCreateBtn');
+const closeAppBtn = document.getElementById('closeAppBtn');
 const categoryBtns = document.querySelectorAll('.category-btn');
 const form = document.getElementById('vacancyForm');
 const photoGrid = document.getElementById('photoGrid');
 const photoInput = document.getElementById('photoInput');
 const addPhotoBtn = document.getElementById('addPhotoBtn');
+const navCreate = document.getElementById('navCreate');
 
 let currentCategory = 'all';
 let vacancies = [];
 let photo = null;
 
-// Загрузка вакансий из JSON
+// Закрыть приложение
+closeAppBtn.addEventListener('click', () => tg.close());
+closeCreateBtn.addEventListener('click', () => tg.close());
+
+// Навигация
+navCreate.addEventListener('click', (e) => {
+    e.preventDefault();
+    createScreen.style.display = 'block';
+    document.querySelector('.app').style.display = 'none';
+    document.querySelector('.bottom-nav').style.display = 'none';
+});
+
+backBtn.addEventListener('click', () => {
+    createScreen.style.display = 'none';
+    document.querySelector('.app').style.display = 'block';
+    document.querySelector('.bottom-nav').style.display = 'flex';
+});
+
+// Активная вкладка
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+        if (this.id !== 'navCreate' && !this.href.includes('index.html')) {
+            e.preventDefault();
+        }
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+    });
+});
+
+// Загрузка вакансий
 async function loadVacancies() {
     try {
         const response = await fetch('https://lev7983-dotcom.github.io/jober-webapp/vacancies.json');
@@ -42,7 +73,6 @@ function filterVacancies() {
     const filtered = currentCategory === 'all' 
         ? vacancies 
         : vacancies.filter(v => v.category === currentCategory);
-    
     renderVacancies(filtered);
 }
 
@@ -69,21 +99,8 @@ window.showVacancy = function(id) {
     window.location.href = `vacancy.html?id=${id}`;
 };
 
-// Создание вакансии
-createBtn.addEventListener('click', () => {
-    createScreen.style.display = 'block';
-    document.querySelector('.app').style.display = 'none';
-});
-
-backBtn.addEventListener('click', () => {
-    createScreen.style.display = 'none';
-    document.querySelector('.app').style.display = 'block';
-});
-
 // Фото
-addPhotoBtn.addEventListener('click', () => {
-    photoInput.click();
-});
+addPhotoBtn.addEventListener('click', () => photoInput.click());
 
 photoInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -142,5 +159,4 @@ form.addEventListener('submit', (e) => {
     tg.close();
 });
 
-// Загружаем при старте
 loadVacancies();
