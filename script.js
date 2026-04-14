@@ -64,6 +64,7 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     
     const data = {
+        action: 'create_vacancy',
         title: document.getElementById('title').value,
         company: document.getElementById('company').value,
         salary: document.getElementById('salary').value,
