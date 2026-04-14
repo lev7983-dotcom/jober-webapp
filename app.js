@@ -13,40 +13,47 @@ const form = document.getElementById('vacancyForm');
 const photoGrid = document.getElementById('photoGrid');
 const photoInput = document.getElementById('photoInput');
 const addPhotoBtn = document.getElementById('addPhotoBtn');
-const navCreate = document.getElementById('navCreate');
 
 let currentCategory = 'all';
 let vacancies = [];
 let photo = null;
 
 // Закрыть приложение
-closeAppBtn.addEventListener('click', () => tg.close());
-closeCreateBtn.addEventListener('click', () => tg.close());
+if (closeAppBtn) closeAppBtn.addEventListener('click', () => tg.close());
+if (closeCreateBtn) closeCreateBtn.addEventListener('click', () => tg.close());
 
 // Навигация
-navCreate.addEventListener('click', (e) => {
-    e.preventDefault();
-    createScreen.style.display = 'block';
-    document.querySelector('.app').style.display = 'none';
-    document.querySelector('.bottom-nav').style.display = 'none';
-});
-
-backBtn.addEventListener('click', () => {
-    createScreen.style.display = 'none';
-    document.querySelector('.app').style.display = 'block';
-    document.querySelector('.bottom-nav').style.display = 'flex';
-});
-
-// Активная вкладка
 document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', function(e) {
-        if (this.id !== 'navCreate' && !this.href.includes('index.html')) {
+        const label = this.querySelector('.nav-label')?.textContent;
+        
+        if (label === 'Разместить') {
             e.preventDefault();
+            createScreen.style.display = 'block';
+            document.querySelector('.app').style.display = 'none';
+            document.querySelector('.bottom-nav').style.display = 'none';
+        } else if (label === 'Главная') {
+            // уже на главной
+        } else if (label === 'Вакансии') {
+            // уже в вакансиях
+        } else {
+            e.preventDefault();
+            tg.showAlert('Раздел в разработке');
         }
+        
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         this.classList.add('active');
     });
 });
+
+// Кнопка Назад
+if (backBtn) {
+    backBtn.addEventListener('click', () => {
+        createScreen.style.display = 'none';
+        document.querySelector('.app').style.display = 'block';
+        document.querySelector('.bottom-nav').style.display = 'flex';
+    });
+}
 
 // Загрузка вакансий
 async function loadVacancies() {
@@ -100,26 +107,31 @@ window.showVacancy = function(id) {
 };
 
 // Фото
-addPhotoBtn.addEventListener('click', () => photoInput.click());
+if (addPhotoBtn) {
+    addPhotoBtn.addEventListener('click', () => photoInput.click());
+}
 
-photoInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        if (file.size > 200 * 1024) {
-            tg.showAlert('Файл больше 200KB');
-            return;
+if (photoInput) {
+    photoInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            if (file.size > 200 * 1024) {
+                tg.showAlert('Файл больше 200KB. Сожмите фото.');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                photo = e.target.result;
+                renderPhoto();
+            };
+            reader.readAsDataURL(file);
         }
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            photo = e.target.result;
-            renderPhoto();
-        };
-        reader.readAsDataURL(file);
-    }
-    photoInput.value = '';
-});
+        photoInput.value = '';
+    });
+}
 
 function renderPhoto() {
+    if (!photoGrid) return;
     if (!photo) {
         photoGrid.innerHTML = '';
         return;
@@ -138,25 +150,40 @@ window.removePhoto = function() {
 };
 
 // Отправка формы
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const data = {
-        action: 'create_vacancy',
-        title: document.getElementById('title').value,
-        company: document.getElementById('company').value,
-        salary: document.getElementById('salary').value,
-        location: document.getElementById('location').value,
-        schedule: document.getElementById('schedule').value,
-        category: document.getElementById('category').value,
-        experience: document.getElementById('experience').value,
-        description: document.getElementById('description').value,
-        phone: document.getElementById('phone').value,
-        photo: photo
-    };
-    
-    tg.sendData(JSON.stringify(data));
-    tg.close();
-});
+if (form) {
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const title = document.getElementById('title')?.value;
+        const company = document.getElementById('company')?.value;
+        const salary = document.getElementById('salary')?.value;
+        const location = document.getElementById('location')?.value;
+        const description = document.getElementById('description')?.value;
+        const phone = document.getElementById('phone')?.value;
+        
+        if (!title || !company || !salary || !location || !description || !phone) {
+            tg.showAlert('Заполните все обязательные поля');
+            return;
+        }
+        
+        const data = {
+            action: 'create_vacancy',
+            title: title,
+            company: company,
+            salary: salary,
+            location: location,
+            schedule: document.getElementById('schedule')?.value || '',
+            category: document.getElementById('category')?.value || '',
+            experience: document.getElementById('experience')?.value || '',
+            description: description,
+            phone: phone
+        };
+        
+        // Фото пока не отправляем чтобы не вылетало
+        // if (photo) data.photo = photo;
+        
+        tg.sendData(JSON.stringify(data));
+    });
+}
 
 loadVacancies();
