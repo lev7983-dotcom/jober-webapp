@@ -12,6 +12,9 @@ const photoInput = document.getElementById('photoInput');
 const addPhotoBtn = document.getElementById('addPhotoBtn');
 const form = document.getElementById('vacancyForm');
 
+// Показываем что WebApp готов
+tg.MainButton.hide();
+
 addPhotoBtn.addEventListener('click', () => {
     if (state.photos.length >= state.maxPhotos) {
         tg.showAlert('Можно загрузить только 1 фото');
@@ -63,17 +66,30 @@ function renderPhotos() {
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     
+    // Проверка обязательных полей
+    const title = document.getElementById('title').value;
+    const company = document.getElementById('company').value;
+    const salary = document.getElementById('salary').value;
+    const location = document.getElementById('location').value;
+    const description = document.getElementById('description').value;
+    const phone = document.getElementById('phone').value;
+    
+    if (!title || !company || !salary || !location || !description || !phone) {
+        tg.showAlert('Заполните все обязательные поля (*)');
+        return;
+    }
+    
     const data = {
         action: 'create_vacancy',
-        title: document.getElementById('title').value,
-        company: document.getElementById('company').value,
-        salary: document.getElementById('salary').value,
-        location: document.getElementById('location').value,
+        title: title,
+        company: company,
+        salary: salary,
+        location: location,
         schedule: document.getElementById('schedule').value,
         category: document.getElementById('category').value,
         experience: document.getElementById('experience').value,
-        description: document.getElementById('description').value,
-        phone: document.getElementById('phone').value,
+        description: description,
+        phone: phone,
         photo: state.photos[0] || null
     };
     
