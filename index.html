@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jober Тест</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>Jober</title>
     <style>
         body {
             background: #000;
@@ -23,10 +22,15 @@
             font-size: 16px;
             box-sizing: border-box;
         }
-        .status {
-            color: #0A84FF;
+        button {
+            background: #0A84FF;
+            color: white;
+            padding: 20px;
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
             margin-top: 20px;
-            text-align: center;
         }
     </style>
 </head>
@@ -37,49 +41,23 @@
     <input type="text" id="company" placeholder="Компания" value="Тест">
     <input type="text" id="salary" placeholder="Зарплата" value="1000">
     <input type="text" id="location" placeholder="Город" value="Москва">
-    <select id="category">
-        <option value="Рестораны/Кафе">Рестораны/Кафе</option>
-        <option value="IT/Технологии">IT/Технологии</option>
-        <option value="Другое">Другое</option>
-    </select>
-    <textarea id="description" placeholder="Описание">Тест</textarea>
     <input type="text" id="phone" placeholder="Телефон" value="123">
     
-    <div class="status" id="status">Заполните данные и нажмите кнопку внизу</div>
+    <button onclick="sendToBot()">ОТПРАВИТЬ</button>
     
     <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
-        
-        // Настраиваем главную кнопку Telegram
-        tg.MainButton.setText('ОТПРАВИТЬ ВАКАНСИЮ');
-        tg.MainButton.show();
-        tg.MainButton.enable();
-        
-        // Обработчик нажатия на главную кнопку
-        tg.MainButton.onClick(() => {
-            const data = {
-                action: 'create_vacancy',
-                title: document.getElementById('title').value,
-                company: document.getElementById('company').value,
-                salary: document.getElementById('salary').value,
-                location: document.getElementById('location').value,
-                category: document.getElementById('category').value,
-                description: document.getElementById('description').value,
-                phone: document.getElementById('phone').value
-            };
+        function sendToBot() {
+            const title = document.getElementById('title').value;
+            const company = document.getElementById('company').value;
+            const salary = document.getElementById('salary').value;
+            const location = document.getElementById('location').value;
+            const phone = document.getElementById('phone').value;
             
-            document.getElementById('status').innerText = 'Отправка...';
+            const text = `/start ${title} | ${company} | ${salary} | ${location} | ${phone}`;
             
-            // Отправляем данные
-            tg.sendData(JSON.stringify(data));
-            
-            // Закрываем через 1 секунду
-            setTimeout(() => {
-                tg.close();
-            }, 1000);
-        });
+            // Открываем бота с готовым сообщением
+            window.open(`https://t.me/WorkEKBl_bot?text=${encodeURIComponent(text)}`, '_self');
+        }
     </script>
 </body>
 </html>
