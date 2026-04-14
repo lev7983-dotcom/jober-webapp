@@ -160,9 +160,10 @@ if (form) {
         const location = document.getElementById('location')?.value;
         const description = document.getElementById('description')?.value;
         const phone = document.getElementById('phone')?.value;
+        const category = document.getElementById('category')?.value;
         
-        if (!title || !company || !salary || !location || !description || !phone) {
-            tg.showAlert('Заполните все обязательные поля');
+        if (!title || !company || !salary || !location || !description || !phone || !category) {
+            tg.showAlert('Заполните все обязательные поля (включая категорию)');
             return;
         }
         
@@ -173,14 +174,12 @@ if (form) {
             salary: salary,
             location: location,
             schedule: document.getElementById('schedule')?.value || '',
-            category: document.getElementById('category')?.value || '',
+            category: category,
             experience: document.getElementById('experience')?.value || '',
             description: description,
-            phone: phone
+            phone: phone,
+            photo: photo || ''
         };
-        
-        // Фото пока не отправляем чтобы не вылетало
-        // if (photo) data.photo = photo;
         
         tg.sendData(JSON.stringify(data));
     });
