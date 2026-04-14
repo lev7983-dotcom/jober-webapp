@@ -9,6 +9,10 @@
 </head>
 <body>
     <div class="app">
+        <div class="close-header">
+            <button class="close-btn" id="closeAppBtn">Закрыть</button>
+        </div>
+        
         <header class="header">
             <div class="logo">
                 <span class="logo-text">Jober</span>
@@ -17,7 +21,7 @@
         </header>
         
         <main class="main">
-            <h1>Вакансии</h1>
+            <h1>Вакансии <span class="notification-icon">🔔</span></h1>
             
             <!-- Категории -->
             <div class="categories">
@@ -40,21 +44,49 @@
             </div>
         </main>
         
-        <!-- Кнопка создания -->
-        <button class="fab" id="createBtn">+</button>
+        <!-- Нижнее меню -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item active">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Главная</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">📋</span>
+                <span class="nav-label">Вакансии</span>
+            </a>
+            <a href="#" class="nav-item" id="navCreate">
+                <span class="nav-icon">➕</span>
+                <span class="nav-label">Разместить+</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">⭐</span>
+                <span class="nav-label">Избранное</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">👤</span>
+                <span class="nav-label">Профиль</span>
+            </a>
+        </nav>
     </div>
     
-    <!-- Экран создания вакансии (скрыт) -->
+    <!-- Экран создания вакансии -->
     <div class="create-screen" id="createScreen" style="display: none;">
+        <div class="close-header">
+            <button class="close-btn" id="closeCreateBtn">Закрыть</button>
+        </div>
+        
         <header class="header">
             <div class="logo">
                 <span class="logo-text">Jober</span>
-                <span class="logo-subtitle">Создание вакансии</span>
+                <span class="logo-subtitle">мини-приложение</span>
             </div>
         </header>
         
         <main class="main">
             <button class="back-btn" id="backBtn">← Назад</button>
+            
+            <h1>Создание вакансии</h1>
+            <p>Заполните форму ниже, чтобы разместить вакансию.</p>
             
             <form id="vacancyForm">
                 <div class="form-group">
@@ -92,6 +124,7 @@
                         <option value="Полный день">Полный день</option>
                         <option value="Сменный график">Сменный график</option>
                         <option value="Удаленная работа">Удаленная работа</option>
+                        <option value="Вахтовый метод">Вахтовый метод</option>
                         <option value="Гибкий график">Гибкий график</option>
                     </select>
                 </div>
