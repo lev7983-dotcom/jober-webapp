@@ -1,0 +1,151 @@
+const tg = window.Telegram.WebApp;
+tg.expand();
+tg.ready();
+
+// Элементы
+const vacanciesList = document.getElementById('vacanciesList');
+const createBtn = document.getElementById('createBtn');
+const createScreen = document.getElementById('createScreen');
+const backBtn = document.getElementById('backBtn');
+const categoryBtns = document.querySelectorAll('.category-btn');
+const form = document.getElementById('vacancyForm');
+const photoGrid = document.getElementById('photoGrid');
+const photoInput = document.getElementById('photoInput');
+const addPhotoBtn = document.getElementById('addPhotoBtn');
+
+let currentCategory = 'all';
+let vacancies = [];
+let photo = null;
+
+// Загрузка вакансий из Telegram
+function loadVacancies() {
+    tg.sendData(JSON.stringify({ action: 'get_vacancies' }));
+}
+
+// Получение вакансий от бота
+Telegram.WebApp.onEvent('mainButtonClicked', () => {});
+Telegram.WebApp.onEvent('viewportChanged', () => {});
+
+// Категории
+categoryBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        categoryBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.dataset.category;
+        filterVacancies();
+    });
+});
+
+function filterVacancies() {
+    const filtered = currentCategory === 'all' 
+        ? vacancies 
+        : vacancies.filter(v => v.category === currentCategory);
+    
+    renderVacancies(filtered);
+}
+
+function renderVacancies(list) {
+    if (!list || list.length === 0) {
+        vacanciesList.innerHTML = '<div class="loading">Нет вакансий в этой категории</div>';
+        return;
+    }
+    
+    vacanciesList.innerHTML = list.map(v => `
+        <div class="vacancy-card" onclick="showVacancy(${v.id})">
+            ${v.photo ? `<img class="vacancy-photo" src="${v.photo}" alt="${v.title}">` : ''}
+            <div class="vacancy-info">
+                <div class="vacancy-title">${v.title}</div>
+                <div class="vacancy-company">${v.company}</div>
+                <div class="vacancy-salary">${v.salary}</div>
+                <div class="vacancy-location">📍 ${v.location}</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+window.showVacancy = function(id) {
+    const vacancy = vacancies.find(v => v.id === id);
+    if (vacancy) {
+        tg.showPopup({
+            title: vacancy.title,
+            message: `${vacancy.company}\n💰 ${vacancy.salary}\n📍 ${vacancy.location}\n\n${vacancy.description || ''}\n\n📞 ${vacancy.phone || 'Не указан'}`,
+            buttons: [{ type: 'close' }]
+        });
+    }
+};
+
+// Создание вакансии
+createBtn.addEventListener('click', () => {
+    createScreen.style.display = 'block';
+    document.querySelector('.app').style.display = 'none';
+});
+
+backBtn.addEventListener('click', () => {
+    createScreen.style.display = 'none';
+    document.querySelector('.app').style.display = 'block';
+});
+
+// Фото
+addPhotoBtn.addEventListener('click', () => {
+    photoInput.click();
+});
+
+photoInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        if (file.size > 200 * 1024) {
+            tg.showAlert('Файл больше 200KB');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            photo = e.target.result;
+            renderPhoto();
+        };
+        reader.readAsDataURL(file);
+    }
+    photoInput.value = '';
+});
+
+function renderPhoto() {
+    if (!photo) {
+        photoGrid.innerHTML = '';
+        return;
+    }
+    photoGrid.innerHTML = `
+        <div class="photo-item">
+            <img src="${photo}" alt="Фото">
+            <button class="remove" onclick="removePhoto()">×</button>
+        </div>
+    `;
+}
+
+window.removePhoto = function() {
+    photo = null;
+    renderPhoto();
+};
+
+// Отправка формы
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const data = {
+        action: 'create_vacancy',
+        title: document.getElementById('title').value,
+        company: document.getElementById('company').value,
+        salary: document.getElementById('salary').value,
+        location: document.getElementById('location').value,
+        schedule: document.getElementById('schedule').value,
+        category: document.getElementById('category').value,
+        experience: document.getElementById('experience').value,
+        description: document.getElementById('description').value,
+        phone: document.getElementById('phone').value,
+        photo: photo
+    };
+    
+    tg.sendData(JSON.stringify(data));
+    tg.close();
+});
+
+// Загружаем при старте
+loadVacancies();
