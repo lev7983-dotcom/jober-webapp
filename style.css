@@ -6,8 +6,8 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
-    background: #ffffff;
-    color: #000000;
+    background: #000000;
+    color: #ffffff;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -16,7 +16,7 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
-    background: #ffffff;
+    background: #000000;
 }
 
 /* Закрыть */
@@ -24,14 +24,14 @@ body {
     display: flex;
     align-items: center;
     padding: 12px 16px;
-    background: #ffffff;
-    border-bottom: 1px solid #f0f0f0;
+    background: #000000;
+    border-bottom: 1px solid #1C1C1E;
 }
 
 .close-btn {
     background: none;
     border: none;
-    color: #007AFF;
+    color: #0A84FF;
     font-size: 17px;
     font-weight: 400;
     cursor: pointer;
@@ -40,10 +40,10 @@ body {
 
 /* Шапка */
 .header {
-    background: #ffffff;
-    color: #000000;
+    background: #000000;
+    color: #ffffff;
     padding: 12px 16px;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #1C1C1E;
 }
 
 .logo {
@@ -56,6 +56,7 @@ body {
     font-size: 22px;
     font-weight: 700;
     letter-spacing: -0.5px;
+    color: #ffffff;
 }
 
 .logo-subtitle {
@@ -68,7 +69,7 @@ body {
     flex: 1;
     padding: 16px;
     padding-bottom: 80px;
-    background: #ffffff;
+    background: #000000;
 }
 
 h1 {
@@ -79,6 +80,7 @@ h1 {
     align-items: center;
     justify-content: space-between;
     letter-spacing: -0.5px;
+    color: #ffffff;
 }
 
 /* Категории */
@@ -99,8 +101,8 @@ h1 {
 .category-btn {
     padding: 10px 18px;
     border: none;
-    background: #F2F2F7;
-    color: #000000;
+    background: #1C1C1E;
+    color: #ffffff;
     border-radius: 100px;
     font-size: 15px;
     font-weight: 500;
@@ -110,7 +112,7 @@ h1 {
 }
 
 .category-btn.active {
-    background: #007AFF;
+    background: #0A84FF;
     color: #ffffff;
 }
 
@@ -122,25 +124,24 @@ h1 {
 }
 
 .vacancy-card {
-    background: #ffffff;
+    background: #1C1C1E;
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
-    border: 1px solid #F2F2F7;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border: 1px solid #2C2C2E;
     transition: transform 0.15s;
 }
 
 .vacancy-card:active {
     transform: scale(0.99);
-    background: #F9F9FB;
+    background: #2C2C2E;
 }
 
 .vacancy-photo {
     width: 100%;
     height: 180px;
     object-fit: cover;
-    background: #F2F2F7;
+    background: #2C2C2E;
 }
 
 .vacancy-info {
@@ -153,6 +154,7 @@ h1 {
     margin-bottom: 4px;
     line-height: 1.3;
     letter-spacing: -0.3px;
+    color: #ffffff;
 }
 
 .vacancy-company {
@@ -164,7 +166,7 @@ h1 {
 .vacancy-salary {
     font-size: 20px;
     font-weight: 700;
-    color: #34C759;
+    color: #30D158;
     margin-bottom: 6px;
 }
 
@@ -192,8 +194,8 @@ h1 {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background: #ffffff;
-    border-top: 1px solid #F2F2F7;
+    background: #000000;
+    border-top: 1px solid #1C1C1E;
     padding: 10px 0 20px;
     z-index: 300;
 }
@@ -211,7 +213,7 @@ h1 {
 }
 
 .nav-item.active {
-    color: #007AFF;
+    color: #0A84FF;
 }
 
 .nav-icon {
@@ -231,7 +233,7 @@ h1 {
     left: 0;
     right: 0;
     bottom: 0;
-    background: #ffffff;
+    background: #000000;
     z-index: 200;
     overflow-y: auto;
     display: flex;
@@ -241,7 +243,7 @@ h1 {
 .back-btn {
     background: none;
     border: none;
-    color: #007AFF;
+    color: #0A84FF;
     font-size: 17px;
     cursor: pointer;
     padding: 0;
@@ -259,7 +261,7 @@ h1 {
     font-weight: 600;
     margin-bottom: 8px;
     font-size: 15px;
-    color: #000000;
+    color: #ffffff;
 }
 
 .form-group label span {
@@ -278,11 +280,11 @@ h1 {
 .form-group textarea {
     width: 100%;
     padding: 14px 16px;
-    border: 1px solid #E5E5EA;
+    border: 1px solid #2C2C2E;
     border-radius: 12px;
     font-size: 16px;
-    background: #F9F9FB;
-    color: #000000;
+    background: #1C1C1E;
+    color: #ffffff;
     outline: none;
     transition: border-color 0.2s;
 }
@@ -290,13 +292,13 @@ h1 {
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-    border-color: #007AFF;
-    background: #ffffff;
+    border-color: #0A84FF;
+    background: #1C1C1E;
 }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-    color: #8E8E93;
+    color: #636366;
 }
 
 .form-group textarea {
@@ -316,7 +318,8 @@ h1 {
     border-radius: 12px;
     overflow: hidden;
     position: relative;
-    border: 1px solid #E5E5EA;
+    border: 1px solid #2C2C2E;
+    background: #1C1C1E;
 }
 
 .photo-item img {
@@ -332,7 +335,7 @@ h1 {
     width: 26px;
     height: 26px;
     border-radius: 13px;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.7);
     color: white;
     border: none;
     cursor: pointer;
@@ -343,8 +346,8 @@ h1 {
 }
 
 .btn-add {
-    background: #F2F2F7;
-    color: #007AFF;
+    background: #1C1C1E;
+    color: #0A84FF;
     border: none;
     padding: 12px 16px;
     border-radius: 12px;
@@ -355,7 +358,7 @@ h1 {
 }
 
 .btn-submit {
-    background: #007AFF;
+    background: #0A84FF;
     color: white;
     border: none;
     padding: 16px;
@@ -378,7 +381,7 @@ h1 {
     display: flex;
     flex-direction: column;
     padding-bottom: 70px;
-    background: #ffffff;
+    background: #000000;
 }
 
 .vacancy-content {
@@ -391,7 +394,7 @@ h1 {
     height: 280px;
     object-fit: cover;
     margin: 0 -16px 20px;
-    background: #F2F2F7;
+    background: #1C1C1E;
 }
 
 .vacancy-full-title {
@@ -400,6 +403,7 @@ h1 {
     margin-bottom: 6px;
     line-height: 1.2;
     letter-spacing: -0.5px;
+    color: #ffffff;
 }
 
 .vacancy-full-company {
@@ -411,12 +415,12 @@ h1 {
 .vacancy-full-salary {
     font-size: 30px;
     font-weight: 700;
-    color: #34C759;
+    color: #30D158;
     margin-bottom: 24px;
 }
 
 .vacancy-details {
-    background: #F9F9FB;
+    background: #1C1C1E;
     border-radius: 16px;
     padding: 16px;
     margin-bottom: 24px;
@@ -426,7 +430,7 @@ h1 {
     display: flex;
     align-items: center;
     padding: 10px 0;
-    border-bottom: 1px solid #E5E5EA;
+    border-bottom: 1px solid #2C2C2E;
 }
 
 .detail-item:last-child {
@@ -442,7 +446,7 @@ h1 {
 
 .detail-text {
     font-size: 16px;
-    color: #000000;
+    color: #ffffff;
 }
 
 .vacancy-description {
@@ -453,24 +457,25 @@ h1 {
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 12px;
+    color: #ffffff;
 }
 
 .vacancy-description p {
     font-size: 16px;
     line-height: 1.5;
-    color: #3A3A3C;
+    color: #8E8E93;
 }
 
 .vacancy-actions {
     padding: 16px;
-    border-top: 1px solid #F2F2F7;
-    background: #ffffff;
+    border-top: 1px solid #1C1C1E;
+    background: #000000;
 }
 
 .btn-contact {
     width: 100%;
     padding: 16px;
-    background: #34C759;
+    background: #30D158;
     color: white;
     border: none;
     border-radius: 14px;
@@ -480,5 +485,11 @@ h1 {
 }
 
 .btn-contact:active {
-    background: #2DA84D;
+    background: #248A3D;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
 }
