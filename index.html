@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jober - Создание вакансии</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jober - Вакансии</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -15,46 +15,90 @@
                 <span class="logo-subtitle">мини-приложение</span>
             </div>
         </header>
+        
         <main class="main">
-            <h1>Создание вакансии</h1>
-            <p>Заполните форму ниже, чтобы разместить вакансию.</p>
+            <h1>Вакансии</h1>
+            
+            <!-- Категории -->
+            <div class="categories">
+                <button class="category-btn active" data-category="all">Все</button>
+                <button class="category-btn" data-category="Рестораны/Кафе">🍽️ Рестораны</button>
+                <button class="category-btn" data-category="IT/Технологии">💻 IT</button>
+                <button class="category-btn" data-category="Ритейл">🛍️ Ритейл</button>
+                <button class="category-btn" data-category="Строительство">🏗️ Стройка</button>
+                <button class="category-btn" data-category="Медицина">🏥 Медицина</button>
+                <button class="category-btn" data-category="Образование">📚 Образование</button>
+                <button class="category-btn" data-category="Логистика/Склад">🚚 Склад</button>
+                <button class="category-btn" data-category="Красота/Спорт">💪 Красота</button>
+                <button class="category-btn" data-category="Домашний персонал">🏠 Дом</button>
+                <button class="category-btn" data-category="Другое">📌 Другое</button>
+            </div>
+            
+            <!-- Список вакансий -->
+            <div class="vacancies-list" id="vacanciesList">
+                <div class="loading">Загрузка вакансий...</div>
+            </div>
+        </main>
+        
+        <!-- Кнопка создания -->
+        <button class="fab" id="createBtn">+</button>
+    </div>
+    
+    <!-- Экран создания вакансии (скрыт) -->
+    <div class="create-screen" id="createScreen" style="display: none;">
+        <header class="header">
+            <div class="logo">
+                <span class="logo-text">Jober</span>
+                <span class="logo-subtitle">Создание вакансии</span>
+            </div>
+        </header>
+        
+        <main class="main">
+            <button class="back-btn" id="backBtn">← Назад</button>
+            
             <form id="vacancyForm">
                 <div class="form-group">
-                    <label>Фотографии <span>(0/8)</span></label>
-                    <p class="hint">Добавьте фотографии (до 8 файлов, макс 10MB)</p>
-                    <p class="note">⭐ Первое фото будет обложкой</p>
+                    <label>Фотографии <span>(0/1)</span></label>
+                    <p class="hint">Добавьте фото (макс 200KB)</p>
                     <div class="photo-grid" id="photoGrid"></div>
-                    <button type="button" class="btn-add" id="addPhotoBtn">+ Добавить фотографии</button>
-                    <input type="file" id="photoInput" accept="image/*" multiple style="display: none">
+                    <button type="button" class="btn-add" id="addPhotoBtn">+ Добавить фото</button>
+                    <input type="file" id="photoInput" accept="image/*" style="display: none">
                 </div>
+                
                 <div class="form-group">
-                    <label>Название вакансии *</label>
+                    <label>Название *</label>
                     <input type="text" id="title" placeholder="Например: Повар горячего цеха" required>
                 </div>
+                
                 <div class="form-group">
                     <label>Компания *</label>
                     <input type="text" id="company" placeholder="Название компании" required>
                 </div>
+                
                 <div class="form-group">
                     <label>Зарплата *</label>
                     <input type="text" id="salary" placeholder="от 5 000 ₽" required>
                 </div>
+                
                 <div class="form-group">
                     <label>Город *</label>
                     <input type="text" id="location" placeholder="Москва, Цветной бульвар д. 23" required>
                 </div>
+                
                 <div class="form-group">
-                    <label>График работы</label>
+                    <label>График</label>
                     <select id="schedule">
                         <option value="">Выберите график</option>
                         <option value="Полный день">Полный день</option>
                         <option value="Сменный график">Сменный график</option>
                         <option value="Удаленная работа">Удаленная работа</option>
+                        <option value="Гибкий график">Гибкий график</option>
                     </select>
                 </div>
+                
                 <div class="form-group">
-                    <label>Категория</label>
-                    <select id="category">
+                    <label>Категория *</label>
+                    <select id="category" required>
                         <option value="">Выберите категорию</option>
                         <option value="Рестораны/Кафе">Рестораны/Кафе</option>
                         <option value="IT/Технологии">IT/Технологии</option>
@@ -68,6 +112,7 @@
                         <option value="Другое">Другое</option>
                     </select>
                 </div>
+                
                 <div class="form-group">
                     <label>Опыт работы</label>
                     <select id="experience">
@@ -78,18 +123,22 @@
                         <option value="От 3 лет">От 3 лет</option>
                     </select>
                 </div>
+                
                 <div class="form-group">
-                    <label>Описание вакансии *</label>
-                    <textarea id="description" rows="5" placeholder="Опишите обязанности и условия..." required></textarea>
+                    <label>Описание *</label>
+                    <textarea id="description" rows="4" placeholder="Опишите обязанности и условия..." required></textarea>
                 </div>
+                
                 <div class="form-group">
-                    <label>Контактный телефон *</label>
+                    <label>Телефон *</label>
                     <input type="tel" id="phone" placeholder="+7 (999) 999-99-99" required>
                 </div>
+                
                 <button type="submit" class="btn-submit">Опубликовать вакансию</button>
             </form>
         </main>
     </div>
-    <script src="script.js"></script>
+    
+    <script src="app.js"></script>
 </body>
 </html>
