@@ -2,70 +2,101 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jober Тест</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jober - Создание вакансии</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body {
-            background: #000;
-            color: #fff;
-            padding: 20px;
-            font-family: -apple-system, sans-serif;
-        }
-        input {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 10px;
-            border: none;
-            background: #1C1C1E;
-            color: white;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-        .status {
-            color: #0A84FF;
-            margin-top: 20px;
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
-    <h1>Тест отправки</h1>
-    
-    <input type="text" id="title" placeholder="Название" value="Тест">
-    <input type="text" id="company" placeholder="Компания" value="Тест">
-    <input type="text" id="salary" placeholder="Зарплата" value="1000">
-    <input type="text" id="location" placeholder="Город" value="Москва">
-    <input type="text" id="phone" placeholder="Телефон" value="123">
-    
-    <div class="status" id="status">Заполните данные и нажмите кнопку внизу</div>
+    <div class="app">
+        <div class="close-header">
+            <button class="close-btn" id="closeAppBtn">Закрыть</button>
+        </div>
+        
+        <header class="header">
+            <div class="logo">
+                <span class="logo-text">Jober</span>
+                <span class="logo-subtitle">мини-приложение</span>
+            </div>
+        </header>
+        
+        <main class="main">
+            <h1>Создание вакансии</h1>
+            <p>Заполните форму ниже, чтобы разместить вакансию.</p>
+            
+            <form id="vacancyForm">
+                <div class="form-group">
+                    <label>Название *</label>
+                    <input type="text" id="title" placeholder="Например: Повар горячего цеха" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Компания *</label>
+                    <input type="text" id="company" placeholder="Название компании" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Зарплата *</label>
+                    <input type="text" id="salary" placeholder="от 5 000 ₽" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Город *</label>
+                    <input type="text" id="location" placeholder="Москва, Цветной бульвар д. 23" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Категория *</label>
+                    <select id="category" required>
+                        <option value="">Выберите категорию</option>
+                        <option value="Рестораны/Кафе">Рестораны/Кафе</option>
+                        <option value="IT/Технологии">IT/Технологии</option>
+                        <option value="Ритейл">Ритейл</option>
+                        <option value="Строительство">Строительство</option>
+                        <option value="Медицина">Медицина</option>
+                        <option value="Образование">Образование</option>
+                        <option value="Другое">Другое</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Описание *</label>
+                    <textarea id="description" rows="4" placeholder="Опишите обязанности и условия..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Телефон *</label>
+                    <input type="tel" id="phone" placeholder="+7 (999) 999-99-99" required>
+                </div>
+                
+                <button type="submit" class="btn-submit">Опубликовать вакансию</button>
+            </form>
+        </main>
+    </div>
     
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
         
-        // Настраиваем главную кнопку
-        tg.MainButton.setText('ОТПРАВИТЬ ВАКАНСИЮ');
-        tg.MainButton.show();
-        tg.MainButton.enable();
+        document.getElementById('closeAppBtn').addEventListener('click', () => tg.close());
         
-        // Обработчик нажатия
-        tg.MainButton.onClick(() => {
+        document.getElementById('vacancyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
             const data = {
                 action: 'create_vacancy',
                 title: document.getElementById('title').value,
                 company: document.getElementById('company').value,
                 salary: document.getElementById('salary').value,
                 location: document.getElementById('location').value,
-                description: 'Тест',
-                phone: document.getElementById('phone').value,
-                category: 'Другое'
+                category: document.getElementById('category').value,
+                description: document.getElementById('description').value,
+                phone: document.getElementById('phone').value
             };
             
-            document.getElementById('status').innerText = 'Отправка...';
             tg.sendData(JSON.stringify(data));
+            tg.close();
         });
     </script>
 </body>
