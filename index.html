@@ -12,17 +12,6 @@
             padding: 20px;
             font-family: -apple-system, sans-serif;
         }
-        .btn {
-            background: #0A84FF;
-            color: white;
-            border: none;
-            padding: 20px;
-            font-size: 20px;
-            border-radius: 14px;
-            width: 100%;
-            margin-top: 20px;
-            cursor: pointer;
-        }
         input {
             width: 100%;
             padding: 15px;
@@ -33,6 +22,11 @@
             color: white;
             font-size: 16px;
             box-sizing: border-box;
+        }
+        .status {
+            color: #0A84FF;
+            margin-top: 20px;
+            text-align: center;
         }
     </style>
 </head>
@@ -45,14 +39,20 @@
     <input type="text" id="location" placeholder="Город" value="Москва">
     <input type="text" id="phone" placeholder="Телефон" value="123">
     
-    <div class="btn" id="sendBtn">ОТПРАВИТЬ ВАКАНСИЮ</div>
+    <div class="status" id="status">Заполните данные и нажмите кнопку внизу</div>
     
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
         
-        document.getElementById('sendBtn').addEventListener('click', function() {
+        // Настраиваем главную кнопку
+        tg.MainButton.setText('ОТПРАВИТЬ ВАКАНСИЮ');
+        tg.MainButton.show();
+        tg.MainButton.enable();
+        
+        // Обработчик нажатия
+        tg.MainButton.onClick(() => {
             const data = {
                 action: 'create_vacancy',
                 title: document.getElementById('title').value,
@@ -64,9 +64,8 @@
                 category: 'Другое'
             };
             
-            alert('Отправка: ' + JSON.stringify(data));
+            document.getElementById('status').innerText = 'Отправка...';
             tg.sendData(JSON.stringify(data));
-            tg.close();
         });
     </script>
 </body>
